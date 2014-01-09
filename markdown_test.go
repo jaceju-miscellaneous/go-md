@@ -1,34 +1,35 @@
 package markdown
 
 import (
-	"fmt"
 	"io/ioutil"
+	"path"
 	"strings"
 	"testing"
 )
 
-// func TestParse(t *testing.T) {
-// 	m := new(Markdown)
-// 	text := "Hello **World**"
-// 	expected := "<p>Hello <strong>World</strong></p>"
-// 	result := m.parse(text)
-// 	if result != expected {
-// 		t.Errorf("'%s' expected but was '%s'.", expected, result)
-// 	}
-// }
-
 func TestParse(t *testing.T) {
+	m := new(Markdown)
 	files, _ := ioutil.ReadDir("./data")
 	for _, f := range files {
-		// @todo Get file path smart.
-		s := []string{"./data/", f.Name()}
-		path := strings.Join(s, "")
-		content, _ := ioutil.ReadFile(path)
-		fmt.Println(string(content))
+		fileName := f.Name()
+		filePath := path.Join("./data/", fileName)
+		fileExt := path.Ext(filePath)
+		if ".md" != fileExt {
+			continue
+		}
+		markdown, _ := ioutil.ReadFile(filePath)
+		input := string(markdown)
+
+		basename := strings.Replace(fileName, fileExt, "", 1)
+		htmlPath := strings.Join([]string{"./data/", basename, ".html"}, "")
+
+		html, _ := ioutil.ReadFile(htmlPath)
+		expected := string(html)
+
+		result := m.parse(input)
+		if result != expected {
+			t.Errorf("'%s' expected but was '%s'.", expected, result)
+		}
+
 	}
 }
-
-// func getFilePath(f *File) string {
-// 	s := []string{"./data/", f.Name()}
-// 	return strings.Join(s, "")
-// }

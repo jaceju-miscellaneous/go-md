@@ -25,7 +25,7 @@ func TestParse(t *testing.T) {
 		html, _ := ioutil.ReadFile(htmlPath)
 		expected := string(html)
 
-		result := parse(input)
+		result := Parse(input)
 		if result != expected {
 			t.Errorf("'%s' expected but was '%s'.", expected, result)
 		}

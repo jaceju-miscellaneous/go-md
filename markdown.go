@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-func parse(text string) string {
+func Parse(text string) string {
 
 	// removes UTF-8 BOM and marker characters
 	re := regexp.MustCompile("^\xEF\xBB\xBF|\x1A")

@@ -8,7 +8,6 @@ import (
 )
 
 func TestParse(t *testing.T) {
-	m := new(Markdown)
 	files, _ := ioutil.ReadDir("./data")
 	for _, f := range files {
 		fileName := f.Name()
@@ -26,7 +25,7 @@ func TestParse(t *testing.T) {
 		html, _ := ioutil.ReadFile(htmlPath)
 		expected := string(html)
 
-		result := m.parse(input)
+		result := parse(input)
 		if result != expected {
 			t.Errorf("'%s' expected but was '%s'.", expected, result)
 		}
